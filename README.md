@@ -22,7 +22,6 @@ cmd.setFunction(args -> {
 });
 ```
 
-
 Add command to executor:
 
 ```
@@ -33,7 +32,7 @@ commands.addCommand(cmd);
 Execute a command:
 ```
 SheepCMDTree commands = new SheepCMDTree();
-        commands.addCommand(cmd);
+commands.addCommand(cmd);
 
 commands.execute("/watchlist add Bob reason:\"grief\" time:3d");
 ```
