@@ -15,7 +15,7 @@ SheepCMD cmd = new SheepCMD("/watchlist add <Player> [String:reason=Toxicity] [T
 ```[String:reason=Toxicity]``` Optional String argument named ```reason``` and default value ```"Toxicity"``` <br>
 ```[Time:time=time1d]``` Optional Time argument named ```time``` and default value ```1d``` (1 day) <br>
 
-Set a commands function:
+Define command's function:
 ```
 cmd.setFunction(args -> {
     System.out.println(args[0] + " , " + args[1] + " , " + args[2]);
