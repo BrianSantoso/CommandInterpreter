@@ -1,6 +1,6 @@
 # CommandInterpreter
 
-Easy to use interpreter for simple console commands
+Easy to use plugin tool for defining and interpreting simple console commands
 
 <h1> Usage </h1>
 Define a command:
