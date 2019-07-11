@@ -1,6 +1,6 @@
 # CommandInterpreter
 
-Easy to use interpreter for simple commands
+Easy to use interpreter for simple console commands
 
 <h1> Usage </h1>
 Define a command:
