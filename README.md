@@ -9,11 +9,11 @@ Define a command:
 SheepCMD cmd = new SheepCMD("/watchlist add <Player> [String:reason=Toxicity] [Time:time=time1d]");
 ```
 
-```/watchlist``` name of command
-```add``` keyword
-```<Player>``` Required Player argument
-```[String:reason=Toxicity]``` Optional String argument named ```reason``` and default value ```"Toxicity"```
-```[Time:time=time1d]``` Optional Time argument named ```time``` and default value ```1d``` (1 day)
+```/watchlist``` name of command <br>
+```add``` keyword <br>
+```<Player>``` Required Player argument <br>
+```[String:reason=Toxicity]``` Optional String argument named ```reason``` and default value ```"Toxicity"``` <br>
+```[Time:time=time1d]``` Optional Time argument named ```time``` and default value ```1d``` (1 day) <br>
 
 Set a commands function:
 ```
