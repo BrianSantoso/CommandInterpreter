@@ -4,6 +4,7 @@ Easy to use interpreter for simple commands
 
 <h1> Usage </h1>
 Define a command:
+
 ```
 SheepCMD cmd = new SheepCMD("/watchlist add <Player> [String:reason=Toxicity] [Time:time=time1d]");
 ```
