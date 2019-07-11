@@ -19,7 +19,8 @@ Set a commands function:
 ```
 cmd.setFunction(args -> {
     System.out.println(args[0] + " , " + args[1] + " , " + args[2]);
-});```
+});
+```
 
 
 Add command to executor:
