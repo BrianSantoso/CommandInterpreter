@@ -4,7 +4,9 @@ Easy to use interpreter for simple commands
 
 <h1> Usage </h1>
 Define a command:
-```SheepCMD cmd = new SheepCMD("/watchlist add <Player> [String:reason=Toxicity] [Time:time=time1d]");```
+```
+SheepCMD cmd = new SheepCMD("/watchlist add <Player> [String:reason=Toxicity] [Time:time=time1d]");
+```
 
 ```/watchlist``` name of command
 ```add``` keyword
@@ -21,8 +23,9 @@ cmd.setFunction(args -> {
 
 Add command to executor:
 
-```SheepCMDTree commands = new SheepCMDTree();
-        commands.addCommand(cmd);
+```
+SheepCMDTree commands = new SheepCMDTree();
+commands.addCommand(cmd);
 ```
 
 Execute a command:
