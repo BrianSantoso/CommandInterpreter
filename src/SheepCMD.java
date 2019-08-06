@@ -250,7 +250,7 @@ public class SheepCMD {
 
         commands.execute("/watchlist add TauCubed reason=grief time=3d");
         commands.execute("/owo blackjack bet:4");
-//        commands.execute("/owo blackjack 3");
+        commands.execute("/owo blackjack 3");
 
     }
 
