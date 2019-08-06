@@ -1,7 +1,7 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
+//import java.util.*;
 import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public class SheepCMDTree {
 
@@ -52,7 +52,7 @@ public class SheepCMDTree {
         for(; i < argsOutline.length + correspondingCommand.getArgStartIndex() && j < numProvidedTokers; i++, j++){
             String arg = tokens[i];
             // TODO: Allow colons in strings
-            String[] argTokens = SheepCMD.splitIgnoreQuotes(arg, ":");
+            String[] argTokens = SheepCMD.splitIgnoreQuotes(arg, "[=:]");
             boolean hasIdentifier = argTokens.length > 1;
             int mappedIndex = -1;
             String identifier = null;
@@ -61,7 +61,12 @@ public class SheepCMDTree {
             if(hasIdentifier){
                 identifier = argTokens[0];
                 value = argTokens[1];
-                mappedIndex = correspondingCommand.getArgIndexMap().get(identifier);
+                try {
+                    mappedIndex = correspondingCommand.getArgIndexMap().get(identifier);
+                } catch (NullPointerException e){
+                    throw new IllegalArgumentException("Keyword identifier \"" + identifier + "\" not found");
+                }
+
             } else {
                 value = argTokens[0];
                 mappedIndex = j;
@@ -105,15 +110,25 @@ public class SheepCMDTree {
         // TODO: Preprocess commands instead of splitting
         // Ex- allow spaces in strings and other things, allow colons in strings, etc.
         int depth = 0;
-        String[] tokens = SheepCMD.splitSpace(SheepCMD.removeSlash(command));
+//        String[] tokens = SheepCMD.splitSpace(SheepCMD.removeSlash(command));
+        String[] tokens = SheepCMD.splitSpace(command);
         SheepCMDTreeNode current = root;
         for(String token : tokens) {
             if (current.hasChildren()) {
                 current = current.getChild(token);
                 depth++;
             } else {
+                // TODO: Wrong argument
+
                 break;
             }
+//            try {
+//                current = current.getChild(token);
+//                depth++;
+//            } catch (NullPointerException e){
+//                System.out.println(token);
+//                throw new IllegalArgumentException();
+//            }
         }
 
         return current.getCommand();

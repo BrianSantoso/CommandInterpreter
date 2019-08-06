@@ -1,11 +1,5 @@
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class SheepCMD {
@@ -17,7 +11,7 @@ public class SheepCMD {
      *
      */
 
-    public static final String ALLOWED_VAR_CHARS = "[A-Za-z0-9_]*";
+    public static final String ALLOWED_VAR_CHARS = "[A-Za-z0-9_/]*";
 
     private String command;
     private String commandIdentifier;
@@ -28,18 +22,17 @@ public class SheepCMD {
 
     public SheepCMD(String command){
 
-
         this.function = null;
-        String cmd = removeSlash(command).trim();
-        this.command = cmd;
-        String[] args = splitSpace(cmd);
+//        String cmd = removeSlash(command).trim();
+        this.command = command.trim();
+        String[] args = splitSpace(this.command);
 
         int i = 0;
-
         String str = "";
         while(i < args.length && isKeyword(args[i])){
             str += args[i++] + " ";
         }
+
         this.commandIdentifier = str.trim();
         this.args = new SheepArg[args.length - i];
         this.argStartIndex = i;
@@ -85,9 +78,7 @@ public class SheepCMD {
         return commandIdentifier;
     }
 
-    public void addCase(){
-
-    }
+//    public void addCase(){}
 
     public void setFunction(SheepCMDFunction function){
         this.function = function;
@@ -149,6 +140,12 @@ public class SheepCMD {
                     return new SheepNumberArg();
                 }
             });
+            put("integer", new SheepArgTypeBuilder<SheepArg>() {
+                @Override
+                public SheepIntegerArg build() {
+                    return new SheepIntegerArg();
+                }
+            });
         }
     };
 
@@ -166,24 +163,12 @@ public class SheepCMD {
         return sheepArg;
     }
 
+    private static String preprocess(String str){
+        return str;
+    }
+
     public static String[] splitSpace(String line){
-
-        String otherThanQuote = " [^\"] ";
-        String quotedString = String.format(" \" %s* \" ", otherThanQuote);
-        String regex = String.format("(?x) "+ // enable comments, ignore white spaces
-                        "\\s+                      "+ // match a <space+>
-                        "(?=                       "+ // start positive look ahead
-                        "  (?:                     "+ //   start non-capturing group 1
-                        "    %s*                   "+ //     match 'otherThanQuote' zero or more times
-                        "    %s                    "+ //     match 'quotedString'
-                        "  )*                      "+ //   end group 1 and repeat it zero or more times
-                        "  %s*                     "+ //   match 'otherThanQuote'
-                        "  $                       "+ // match the end of the string
-                        ")                         ", // stop positive look ahead
-                otherThanQuote, quotedString, otherThanQuote);
-
-        String[] tokens = line.split(regex, -1);
-        return tokens;
+        return splitIgnoreQuotes(line, "\\s+"); //match whitespaces
     }
 
     public static String[] splitIgnoreQuotes(String line, String delimeter){
@@ -206,7 +191,7 @@ public class SheepCMD {
         return tokens;
     }
 
-    public static boolean isKeyword(String arg){
+    private static boolean isKeyword(String arg){
         Pattern pattern_alphanumeric = Pattern.compile(ALLOWED_VAR_CHARS);
         return pattern_alphanumeric.matcher(arg).matches();
     }
@@ -233,6 +218,7 @@ public class SheepCMD {
     }
 
     public static String removeSlash(String command){
+        System.out.println("Warning: Slash removal is no longer supported.");
         if(command.charAt(0) == '/')
             return command.substring(1);
         return command;
@@ -249,21 +235,22 @@ public class SheepCMD {
 
     public static void main(String[] arg0){
 
-        SheepCMD cmd1 = new SheepCMD("/watchlist add <Player> [String:reason=Toxicity] [Time:time=time1d]");
+        SheepCMD cmd1 = new SheepCMD("/watchlist add <Player:player> [String:reason=Toxicity] [Time:time=1d]");
         cmd1.setFunction(args -> {
             System.out.println(args[0] + " , " + args[1] + " , " + args[2]);
         });
         SheepCMDTree commands = new SheepCMDTree();
         commands.addCommand(cmd1);
 
-        SheepCMD cmd2 = new SheepCMD("/owo blackjack <Number:bet=1>");
+        SheepCMD cmd2 = new SheepCMD("/owo blackjack <Integer:bet=1>");
         cmd2.setFunction(args -> {
             System.out.println(args[0]);
         });
         commands.addCommand(cmd2);
 
-        commands.execute("/watchlist add TauCubed reason:\"grief\" time:3d");
-        commands.execute("/owo blackjack 3");
+        commands.execute("/watchlist add TauCubed reason=grief time=3d");
+        commands.execute("/owo blackjack bet:4");
+//        commands.execute("/owo blackjack 3");
 
     }
 
